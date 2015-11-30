@@ -12,23 +12,108 @@ namespace WebCamControl2
     class WebCam
     {
 
-        Capture capture = null;
-        Filters filters = null;
-
+        #region Initialization
         int counter = 1;
-        bool startEnable = true;
+        int VideoInputDeviceIndex = 0; 
+        int VideoCompressorIndex = 0;
         private System.Windows.Forms.Panel _panel1;
         //int deviceNumber = 0;
-
-
         public WebCam(System.Windows.Forms.Panel panel1)
         {
             _panel1 = panel1;
         }
 
+        Filters filters = null;
+        Capture capture = null;
+        #endregion
+
+        #region Settings
+        //1 stands for video devices, 2 stands for compressors
+        public List<string> EnumerateDevices(int mode) 
+        {
+            if (mode == 1)
+            {
+                if (filters.VideoInputDevices != null)
+                {
+                    List<string> devices = new List<string>();
+                    foreach (Filter f in filters.VideoInputDevices)
+                    {
+                        devices.Add(f.Name);
+                    }
+                    return devices;
+                }
+                return null;
+            }
+            else if (mode == 2)
+            {
+                if (filters.VideoCompressors != null)
+                {
+                    List<string> compressors = new List<string>();
+                    foreach (Filter f in filters.VideoCompressors)
+                    {
+                        compressors.Add(f.Name);
+                    }
+                    return compressors;
+                }
+                return null;
+            }
+            else
+            {
+                return null;
+            }
+        }
+        public void printDevicesAndCompressors()
+        {
+            List<string> devices = new List<string>();
+            List<string> compressors = new List<string>();
+            devices = EnumerateDevices(1);
+            compressors = EnumerateDevices(2);
+            //Firstly print out video devices
+            foreach(string device in devices)
+            {
+                Console.WriteLine(device + "\n");
+            }
+            Console.WriteLine("\n");
+            foreach (string compressor in compressors)
+            {
+                Console.WriteLine(compressor + "\n");
+            }
+        }
+        #endregion
+
+        #region Menu Commands
+        public void VideoInputDevicesSettings()
+        {
+            TaskWindow winTask = new TaskWindow();
+            winTask.ShowDialog();
+        }
+
+        public void VideoCompressorsSettings()
+        {
+
+        }
+        #endregion
+
+        #region Video functions
+        public void Preview()
+        {
+            if (capture != null)
+            {
+                capture.Stop();
+                capture.PreviewWindow = null;
+            }
+            capture = new Capture(filters.VideoInputDevices[VideoInputDeviceIndex], null);
+
+            capture.PreviewWindow = _panel1; 
+
+            capture.Start();
+        }
+        bool startEnable = true;
         public void Start_Preview()
         {
             filters = new Filters();
+
+            printDevicesAndCompressors();
 
             if (filters.VideoInputDevices != null)
             {
@@ -49,26 +134,6 @@ namespace WebCamControl2
             }
         }
 
-        public void Preview()
-        {
-            //TODO
-            //try
-            //{
-            
-            if (capture != null)
-            {
-                capture.Stop();
-                capture.PreviewWindow = null;
-            }
-                capture = new Capture(filters.VideoInputDevices[0], null);
-                //capture.VideoCompressor = filters.VideoCompressors[0];
-
-                capture.PreviewWindow = _panel1; //need to allocate wpf window for that
-
-                capture.Start();
-            //}
-            //catch { }
-        }
         public void Stop_Preview()
         {
             Console.WriteLine("****************\nSTOP PREVIEW FUNCTION\n*******************");
@@ -77,6 +142,7 @@ namespace WebCamControl2
         }
         public void Start_Capture(bool captureEnable)
         {
+            // Solved bug with compressor and previewing video in Capture mode after StartP-StopP sequence
             Console.WriteLine("****************\nSTART CAPTURE FUNCTION\n*******************");
 
             if (capture == null)
@@ -86,7 +152,8 @@ namespace WebCamControl2
                 {
                     try
                     {
-                        capture = new Capture(filters.VideoInputDevices[0], null);
+                        capture = new Capture(filters.VideoInputDevices[VideoInputDeviceIndex], null);
+                        capture.VideoCompressor = filters.VideoCompressors[VideoCompressorIndex];
                         capture.PreviewWindow = _panel1;
                     }
                     catch (Exception ex)
@@ -103,9 +170,10 @@ namespace WebCamControl2
             else
             {
                 capture.Stop();
-                capture.VideoCompressor = filters.VideoCompressors[0];
+                Console.WriteLine("****************\nUSING COMPRESSOR\n*******************");
+                capture.VideoCompressor = filters.VideoCompressors[VideoCompressorIndex];
+                capture.PreviewWindow = _panel1;
             }
-            
 
             if (captureEnable == true)
             {
@@ -121,5 +189,6 @@ namespace WebCamControl2
             capture.Stop();
             capture.PreviewWindow = null;
         }
+        #endregion
     }
 }

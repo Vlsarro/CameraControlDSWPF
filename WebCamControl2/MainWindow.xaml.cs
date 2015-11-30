@@ -22,12 +22,12 @@ namespace WebCamControl2
     public partial class MainWindow : Window
     {
         WebCam _webcam;
+        //MenuCommands _mcommands;
         public MainWindow()
         {
             InitializeComponent();
             System.Windows.Forms.Panel panel1 = new System.Windows.Forms.Panel();
             formController.Child = panel1;
-            //formController.Child = new System.Windows.Forms.Button();
             _webcam = new WebCam(panel1);
         }
 
@@ -68,6 +68,16 @@ namespace WebCamControl2
         private void bntStopCapture_Click(object sender, RoutedEventArgs e)
         {
             _webcam.Stop_Capture();
+        }
+
+        private void VideoInputDevicesSettings_Click(object sender, RoutedEventArgs e)
+        {
+            _webcam.VideoInputDevicesSettings();
+        }
+
+        private void VideoCompressorsSettings_Click(object sender, RoutedEventArgs e)
+        {
+            _webcam.VideoCompressorsSettings();
         }
 
     }
