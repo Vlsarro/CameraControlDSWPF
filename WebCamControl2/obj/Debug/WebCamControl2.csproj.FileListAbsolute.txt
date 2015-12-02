@@ -13,3 +13,4 @@ C:\Users\T999\Documents\VS_Projects\WebCamControl2\WebCamControl2\bin\Debug\Dire
 C:\Users\T999\Documents\VS_Projects\WebCamControl2\WebCamControl2\bin\Debug\DShowNET.dll
 C:\Users\T999\Documents\VS_Projects\WebCamControl2\WebCamControl2\obj\Debug\WebCamControl2.exe
 C:\Users\T999\Documents\VS_Projects\WebCamControl2\WebCamControl2\obj\Debug\WebCamControl2.pdb
+C:\Users\T999\Documents\VS_Projects\WebCamControl2\WebCamControl2\obj\Debug\WebCamControl2_MarkupCompile.lref

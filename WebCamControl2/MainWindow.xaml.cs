@@ -22,6 +22,8 @@ namespace WebCamControl2
     public partial class MainWindow : Window
     {
         WebCam _webcam;
+        int VideoInputDeviceIndex = 0;
+        int VideoCompressorIndex = 0;
         //MenuCommands _mcommands;
         public MainWindow()
         {
@@ -72,12 +74,15 @@ namespace WebCamControl2
 
         private void VideoInputDevicesSettings_Click(object sender, RoutedEventArgs e)
         {
-            _webcam.VideoInputDevicesSettings();
+            //_webcam.VideoInputDevicesSettings();
+            VideoInputSettings vis = new VideoInputSettings();
+            vis.Show();
         }
 
         private void VideoCompressorsSettings_Click(object sender, RoutedEventArgs e)
         {
-            _webcam.VideoCompressorsSettings();
+            VideoCompressorSettings vcs = new VideoCompressorSettings();
+            vcs.Show();
         }
 
     }

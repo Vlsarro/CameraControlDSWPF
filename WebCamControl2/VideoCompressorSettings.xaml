@@ -1,0 +1,31 @@
+﻿<Window x:Class="WebCamControl2.VideoCompressorSettings"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="VideoCompressorsSettings" Height="300" Width="300">
+    <DockPanel Margin="10">
+        <StackPanel DockPanel.Dock="Right" Margin="10,0">
+            <StackPanel.Resources>
+                <Style TargetType="Button">
+                    <Setter Property="Margin" Value="0,0,0,5" />
+                </Style>
+            </StackPanel.Resources>
+            <TextBlock FontWeight="Bold" Margin="0,0,0,10">Video Compressors selection</TextBlock>
+            <Button Name="btnShowSelectedItem" Click="btnShowSelectedItem_Click">Show selected</Button>
+            <Button Name="btnSelectLast" Click="btnSelectLast_Click">Select last</Button>
+            <Button Name="btnSelectNext" Click="btnSelectNext_Click">Select next</Button>
+        </StackPanel>
+        <ListBox Name="VideoCompressorsList" HorizontalContentAlignment="Stretch" SelectionMode="Extended" SelectionChanged="VideoCompressorsList_SelectionChanged">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid Margin="0,2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="100" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="{Binding}" />
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+    </DockPanel>
+</Window>

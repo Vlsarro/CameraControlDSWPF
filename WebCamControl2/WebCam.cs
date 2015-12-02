@@ -84,8 +84,7 @@ namespace WebCamControl2
         #region Menu Commands
         public void VideoInputDevicesSettings()
         {
-            TaskWindow winTask = new TaskWindow();
-            winTask.ShowDialog();
+            
         }
 
         public void VideoCompressorsSettings()
@@ -113,13 +112,15 @@ namespace WebCamControl2
         {
             filters = new Filters();
 
-            printDevicesAndCompressors();
+            //printDevicesAndCompressors();
 
             if (filters.VideoInputDevices != null)
             {
                 try
                 {
                     Console.WriteLine("****************\nPREVIEW FUNCTION\n*******************");
+                    Console.WriteLine("****************\nUSING VIDEO INPUT DEVICE: " + filters.VideoInputDevices[VideoInputDeviceIndex].Name +
+                                                        "\n*******************");
                     Preview();
                 }
                 catch (Exception ex)
@@ -154,6 +155,8 @@ namespace WebCamControl2
                     {
                         capture = new Capture(filters.VideoInputDevices[VideoInputDeviceIndex], null);
                         capture.VideoCompressor = filters.VideoCompressors[VideoCompressorIndex];
+                        Console.WriteLine("****************\nUSING COMPRESSOR: " + filters.VideoCompressors[VideoCompressorIndex].Name +
+                                                        "\n*******************");
                         capture.PreviewWindow = _panel1;
                     }
                     catch (Exception ex)
@@ -170,7 +173,8 @@ namespace WebCamControl2
             else
             {
                 capture.Stop();
-                Console.WriteLine("****************\nUSING COMPRESSOR\n*******************");
+                Console.WriteLine("****************\nUSING COMPRESSOR: " + filters.VideoCompressors[VideoCompressorIndex].Name +
+                                                        "\n*******************");
                 capture.VideoCompressor = filters.VideoCompressors[VideoCompressorIndex];
                 capture.PreviewWindow = _panel1;
             }
